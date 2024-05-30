@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
 import com.student.mgmt.entity.Student;
 import com.student.mgmt.exception.ResourceNotFoundException;
@@ -21,11 +22,12 @@ public class StudentServiceImpl implements StudentService{
 		this.modelMapper = modelMapper;
 	}
 
-	public List<StudentDto> getAllStudents(){
-		List<Student> students=this.studentRepository.findAll();
-		List<StudentDto> studentDtos=this.studentRepository.findAll().stream().map(this::studentToDto).collect(Collectors.toList());
-
-		return studentDtos;
+	@Override
+	public List<StudentDto> getAllStudents() {
+		List<Student> students = this.studentRepository.findAll();
+        return students.stream()
+                .map(this::studentToDto)
+                .collect(Collectors.toList());
 	}
 
 	@Override
@@ -70,6 +72,5 @@ public class StudentServiceImpl implements StudentService{
 		StudentDto studentDto=this.modelMapper.map(student,StudentDto.class);
 		return studentDto;
 	}
-	
-	
+
 }
